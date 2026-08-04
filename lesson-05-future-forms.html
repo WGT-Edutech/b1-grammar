@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 05 · Future Forms: will / going to / present continuous</title>
+  <style>
+    :root{
+      --bg:#0b0d11;
+      --panel:#121620;
+      --panel-2:#1a1f2d;
+      --text:#e8ecf2;
+      --muted:#9aa3b2;
+      --accent:#00d4ff;
+      --accent-h:190;
+      --glow:rgba(0,212,255,.25);
+      --input-bg:#1e2433;
+      --input-border:#2a3347;
+      --good:#38f0b6;
+      --bad:#ff5a6a;
+      --warn:#ffd166;
+      --radius:14px;
+      --max:860px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,system-ui,-apple-system,sans-serif;
+      background:var(--bg);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse at 20% 50%, hsla(var(--accent-h),100%,50%,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, hsla(calc(var(--accent-h) + 60),100%,50%,0.02) 0%, transparent 50%);
+      background-attached:fixed;
+      color:var(--text);
+      line-height:1.55;
+      min-height:100vh;
+    }
+    .wrap{max-width:var(--max);margin:0 auto;padding:28px 16px 100px}
+    .top{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+    .top a.back{
+      text-decoration:none;color:var(--muted);
+      border:1px solid #202637;padding:6px 12px;border-radius:999px;
+      font-size:.8rem;
+    }
+    .top a.back:hover{border-color:var(--accent);color:var(--accent)}
+    h1{font-size:1.55rem;margin:0;letter-spacing:-.3px;flex:1 1 260px}
+    .level{font-size:.75rem;border:1px solid var(--accent);color:var(--accent);padding:4px 10px;border-radius:999px}
+    input[type=text], select{
+      background:var(--input-bg);color:var(--text);border:1px solid var(--input-border);
+      border-radius:8px;padding:7px 10px;font-size:.95rem;min-width:140px;
+      box-shadow:0 0 8px var(--glow);
+      transition:box-shadow .15s;
+    }
+    input[type=text]:focus, select:focus{
+      outline:none;box-shadow:0 0 14px var(--glow);
+    }    .theme-presets{display:flex;gap:4px}
+    .preset{
+      width:18px;height:18px;border-radius:50%;
+      background:hsl(var(--p) 100% 50%);
+      border:2px solid transparent;
+      cursor:pointer;
+      transition:transform .1s, border-color .1s;
+    }    .preset.active{border-color:#fff;box-shadow:0 0 6px hsla(var(--p),100%,50%,.5)}
+    .theme label{font-size:.75rem;color:var(--muted)}
+    .tabs{display:flex;gap:8px;margin:18px 0 20px;border-bottom:1px solid #202637;padding-bottom:0}
+    .tab{
+      padding:10px 18px;border-radius:10px 10px 0 0;
+      background:transparent;border:none;color:var(--muted);
+      cursor:pointer;font-weight:600;font-size:.9rem;
+      border-bottom:3px solid transparent;
+    }
+    .tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent);background:var(--panel-2)}
+
+    .panel{display:none}
+    .panel.active{display:block}
+
+    .hint-box{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;
+      background-image:
+        linear-gradient(135deg, hsla(var(--accent-h),100%,50%,0.02) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.02 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .hint-box h2{margin:0 0 8px;font-size:1.05rem;color:var(--accent)}
+    .hint-box p{margin:0;color:var(--muted)}
+
+    h2{margin:22px 0 10px;font-size:1.15rem}
+    h3{margin:18px 0 8px;font-size:1rem;color:#c2c9d5}
+    .rule{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:16px 18px;margin:12px 0;
+      background-image:
+        linear-gradient(180deg, hsla(var(--accent-h),100%,50%,0.015) 0%, transparent 40%);
+    }
+    .rule-title{font-weight:700;color:var(--accent);margin-bottom:4px}
+    ul{padding-left:18px;margin:8px 0}
+    li{margin:5px 0}
+    em{font-style:normal;color:var(--accent)}
+    strong{color:#fff}
+    .example{
+      background:var(--panel-2);padding:10px 14px;border-radius:10px;
+      margin:8px 0;font-size:.95rem;border-left:3px solid var(--accent);
+    }
+    .example b{color:var(--accent)}
+
+    .img-placeholder{
+      background:var(--panel-2);border:2px dashed #2a3347;
+      border-radius:var(--radius);padding:30px 20px;text-align:center;
+      color:var(--muted);margin:14px 0;
+    }
+    .img-placeholder small{display:block;margin-top:6px;font-size:.75rem}
+
+    .exercise{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;
+    }
+    .exercise h3{margin:0 0 12px;font-size:1.05rem;color:#fff}
+    .exercise .instr{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+    .q{margin:14px 0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+    .q .num{display:inline-block;width:24px;height:24px;border-radius:50%;
+      background:var(--panel-2);text-align:center;line-height:24px;font-size:.8rem;font-weight:700}
+    .q select, .q input[type=text]{
+      background:var(--panel-2);color:var(--text);border:1px solid #2a3347;
+      border-radius:8px;padding:7px 10px;font-size:.95rem;min-width:140px;
+    }
+    .q select:focus, .q input:focus{outline:none;border-color:var(--accent)}
+    .q select.correct, .q input.correct{border-color:var(--good);background:rgba(56,240,182,.08)}
+    .q select.wrong, .q input.wrong{border-color:var(--bad);background:rgba(255,90,106,.08)}
+    .q .answer{display:none;margin-left:auto;font-size:.85rem;color:var(--good)}
+    .q.revealed .answer{display:inline}
+    .q.revealed .num.good{background:var(--good);color:#000}
+    .q.revealed .num.bad{background:var(--bad);color:#000}
+
+    .btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    button{
+      background:var(--accent);color:#000;border:none;
+      padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;
+      box-shadow:0 0 14px var(--glow);font-size:.9rem;
+    }
+    button:hover{filter:brightness(1.1)}
+    button.secondary{background:var(--panel-2);color:var(--text);box-shadow:none;border:1px solid #2a3347}
+    .score{margin-left:auto;align-self:center;font-weight:700;color:var(--accent)}
+
+    .progress{display:flex;gap:6px;margin:8px 0 18px}
+    .dot{width:10px;height:10px;border-radius:50%;background:#202637}
+    .dot.done{background:var(--good)}
+    .dot.current{background:var(--accent);box-shadow:0 0 8px var(--glow)}
+
+    footer{
+      position:fixed;left:0;right:0;bottom:0;
+      padding:14px 18px;
+      background:rgba(11,13,17,.85);
+      backdrop-filter:blur(8px);
+      border-top:1px solid #202637;
+      font-size:.75rem;color:var(--muted);
+      display:flex;justify-content:center;gap:16px;
+    }
+    footer a{color:var(--muted);text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="index.html">← All lessons</a>
+      <h1>Future Forms: will / going to / present continuous</h1>
+      <span class="level">B1</span>
+      
+    </div>
+
+    <div class="progress" aria-label="Progress">
+      <span class="dot current"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-target="explain">Explanation</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex1">Exercise 1</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex2">Exercise 2</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex3">Exercise 3</button>
+    </div>
+
+    <!-- EXPLANATION -->
+    <section id="explain" class="panel active">
+      <div class="hint-box">
+        <h2>Three ways to talk about the future</h2>
+        <p>English has several ways to talk about the future. They are not exactly the same, so the meaning changes depending on which form you choose.</p>
+      </div>
+
+      <!-- RULE BLOCKS -->
+      <div class="rule">
+        <div class="rule-title">will</div>
+        <p>Use for spontaneous decisions, promises, offers, predictions based on opinion.</p>
+        <div class="example">It's cold in here. <b>I'll close</b> the window. I think it <b>will rain</b> later.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">be going to</div>
+        <p>Use for plans or intentions, or predictions based on present evidence.</p>
+        <div class="example"><b>I'm going to study</b> medicine. Look at those clouds. It <b>is going to rain</b>!</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Present continuous for future</div>
+        <p>Use for definite personal arrangements. You usually say when.</p>
+        <div class="example"><b>I'm meeting</b> Anna <b>tomorrow</b> at 6.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Quick guide</div>
+        <p>Spontaneous decision = will. Intention or prediction from evidence = going to. Fixed personal arrangement = present continuous.</p>
+      </div>
+
+      <div class="img-placeholder">
+        <div>📸 Image placeholder</div>
+        <small>Drop custom explanation image here later.</small>
+      </div>
+    </section>
+
+    <!-- EXERCISE 1: MULTIPLE CHOICE -->
+    <section id="ex1" class="panel">
+      <div class="exercise">
+        <h3>Exercise 1 — Choose the correct form</h3>
+        <p class="instr">Choose the correct option to complete each sentence.</p>
+        <form id="form1">
+          <div class="q" data-answer="will help">
+            <span class="num">1</span>
+            <span>Don't worry, I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="will help">will help</option>
+              <option value="am going to help">am going to help</option>
+              <option value="am helping">am helping</option>
+              <option value="help">help</option>
+            </select></strong> you with the bags.</span>
+            <span class="answer">will help</span>
+          </div>
+
+          <div class="q" data-answer="am going to buy">
+            <span class="num">2</span>
+            <span>I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="am going to buy">am going to buy</option>
+              <option value="will buy">will buy</option>
+              <option value="buy">buy</option>
+              <option value="am buying">am buying</option>
+            </select></strong> a new phone next month.</span>
+            <span class="answer">am going to buy</span>
+          </div>
+
+          <div class="q" data-answer="are meeting">
+            <span class="num">3</span>
+            <span>We <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="are meeting">are meeting</option>
+              <option value="will meet">will meet</option>
+              <option value="are going to meet">are going to meet</option>
+              <option value="meet">meet</option>
+            </select></strong> the client at 10 a.m. tomorrow.</span>
+            <span class="answer">are meeting</span>
+          </div>
+
+          <div class="q" data-answer="is going to rain">
+            <span class="num">4</span>
+            <span>Look at the sky. It <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="is going to rain">is going to rain</option>
+              <option value="will rain">will rain</option>
+              <option value="rains">rains</option>
+              <option value="is raining">is raining</option>
+            </select></strong>.</span>
+            <span class="answer">is going to rain</span>
+          </div>
+
+          <div class="q" data-answer="will get">
+            <span class="num">5</span>
+            <span>I think this form <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="will get">will get</option>
+              <option value="is going to get">is going to get</option>
+              <option value="gets">gets</option>
+              <option value="is getting">is getting</option>
+            </select></strong> easier with practice.</span>
+            <span class="answer">will get</span>
+          </div>
+
+          <div class="q" data-answer="are going to have">
+            <span class="num">6</span>
+            <span>They <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="are going to have">are going to have</option>
+              <option value="will have">will have</option>
+              <option value="have">have</option>
+              <option value="are having">are having</option>
+            </select></strong> a baby in May.</span>
+            <span class="answer">are going to have</span>
+          </div>
+
+          <div class="q" data-answer="will">
+            <span class="num">7</span>
+            <span>Oh, I forgot to send the email. I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="will">will</option>
+              <option value="am going to">am going to</option>
+              <option value="do">do</option>
+              <option value="am doing">am doing</option>
+            </select></strong> do it now.</span>
+            <span class="answer">will</span>
+          </div>
+
+          <div class="q" data-answer="is flying">
+            <span class="num">8</span>
+            <span>My sister <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="is flying">is flying</option>
+              <option value="flies">flies</option>
+              <option value="will fly">will fly</option>
+              <option value="is going to fly">is going to fly</option>
+            </select></strong> to London on Friday.</span>
+            <span class="answer">is flying</span>
+          </div>
+
+          <div class="q" data-answer="am going to learn">
+            <span class="num">9</span>
+            <span>Next year I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="am going to learn">am going to learn</option>
+              <option value="will learn">will learn</option>
+              <option value="learn">learn</option>
+              <option value="am learning">am learning</option>
+            </select></strong> Spanish.</span>
+            <span class="answer">am going to learn</span>
+          </div>
+
+          <div class="q" data-answer="will be">
+            <span class="num">10</span>
+            <span>I promise the next lesson <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="will be">will be</option>
+              <option value="is going to be">is going to be</option>
+              <option value="is">is</option>
+              <option value="is being">is being</option>
+            </select></strong> easier.</span>
+            <span class="answer">will be</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- EXERCISE 2: CORRECT THE MISTAKE -->
+    <section id="ex2" class="panel">
+      <div class="exercise">
+        <h3>Exercise 2 — Correct the mistake</h3>
+        <p class="instr">Each sentence has ONE mistake. Rewrite it correctly.</p>
+        <form id="form2">
+          <div class="q" data-answer="I'm going to call my mother later">
+            <span class="num">1</span>
+            <span>I <strong>will call my mother later</strong>. (planned) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I'm going to call my mother later</span>
+          </div>
+
+          <div class="q" data-answer="I'll get it">
+            <span class="num">2</span>
+            <span>The phone is ringing. I <strong>am going to get it</strong>. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I'll get it</span>
+          </div>
+
+          <div class="q" data-answer="She is having lunch with her boss on Tuesday">
+            <span class="num">3</span>
+            <span>She <strong>is going to have lunch with her boss on Tuesday</strong>. (fixed arrangement) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">She is having lunch with her boss on Tuesday</span>
+          </div>
+
+          <div class="q" data-answer="It is going to snow">
+            <span class="num">4</span>
+            <span>Look! It <strong>will snow</strong>. (black clouds) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">It is going to snow</span>
+          </div>
+
+          <div class="q" data-answer="I won't tell anyone">
+            <span class="num">5</span>
+            <span>I promise I <strong>am not going to tell</strong> anyone. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I won't tell anyone</span>
+          </div>
+
+          <div class="q" data-answer="They are arriving at 7 p.m.">
+            <span class="num">6</span>
+            <span>They <strong>will arrive at 7 p.m.</strong> (confirmed plan) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">They are arriving at 7 p.m.</span>
+          </div>
+
+          <div class="q" data-answer="I'm going to be a doctor when I grow up">
+            <span class="num">7</span>
+            <span>I <strong>will be a doctor when I grow up</strong>. (intention) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I'm going to be a doctor when I grow up</span>
+          </div>
+
+          <div class="q" data-answer="I'll help you with this exercise">
+            <span class="num">8</span>
+            <span>I <strong>am helping you with this exercise</strong>. (spontaneous offer) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I'll help you with this exercise</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- EXERCISE 3: FILL IN THE GAPS -->
+    <section id="ex3" class="panel">
+      <div class="exercise">
+        <h3>Exercise 3 — Fill in the gaps</h3>
+        <p class="instr">Put the verbs in brackets into the correct form.</p>
+        <form id="form3">
+          <div class="q" data-answer="am going to visit">
+            <span class="num">1</span>
+            <span>I <strong>(visit)</strong> my grandmother next Sunday. (plan)</span>
+            <span class="answer">am going to visit</span>
+          </div>
+
+          <div class="q" data-answer="will carry">
+            <span class="num">2</span>
+            <span>The box is heavy. I <strong>(carry)</strong> it for you.</span>
+            <span class="answer">will carry</span>
+          </div>
+
+          <div class="q" data-answer="is meeting">
+            <span class="num">3</span>
+            <span>Our teacher <strong>(meet)</strong> us at the museum at 9 a.m.</span>
+            <span class="answer">is meeting</span>
+          </div>
+
+          <div class="q" data-answer="is going to rain">
+            <span class="num">4</span>
+            <span>Look at those clouds! It <strong>(rain)</strong>.</span>
+            <span class="answer">is going to rain</span>
+          </div>
+
+          <div class="q" data-answer="will love">
+            <span class="num">5</span>
+            <span>I think you <strong>(love)</strong> this film.</span>
+            <span class="answer">will love</span>
+          </div>
+
+          <div class="q" data-answer="are going to move">
+            <span class="num">6</span>
+            <span>They <strong>(move)</strong> to a bigger flat next month.</span>
+            <span class="answer">are going to move</span>
+          </div>
+
+          <div class="q" data-answer="am having">
+            <span class="num">7</span>
+            <span>I <strong>(have)</strong> dinner with Tom tonight.</span>
+            <span class="answer">am having</span>
+          </div>
+
+          <div class="q" data-answer="will probably pass">
+            <span class="num">8</span>
+            <span>If she studies, she <strong>(probably / pass)</strong> the exam.</span>
+            <span class="answer">will probably pass</span>
+          </div>
+
+          <div class="q" data-answer="is going to study">
+            <span class="num">9</span>
+            <span>He <strong>(study)</strong> engineering at university.</span>
+            <span class="answer">is going to study</span>
+          </div>
+
+          <div class="q" data-answer="am not going to eat">
+            <span class="num">10</span>
+            <span>I <strong>(not eat)</strong> meat any more.</span>
+            <span class="answer">am not going to eat</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span>Lesson 05 · B1 Grammar</span>
+    <a href="index.html">← All lessons</a>
+  </footer>
+
+  <script>
+    (function(){
+      const root=document.documentElement;
+      // Apply theme from index
+      const themes=[
+        {h:190,bg:'#0b0d11',panel:'#121620',panel2:'#1a1f2d',input:'#1e2433'},
+        {h:35,bg:'#14100a',panel:'#1c1810',panel2:'#2a2418',input:'#2e2a1e'},
+        {h:340,bg:'#140a0e',panel:'#1c1018',panel2:'#2a1822',input:'#2e1e28'},
+        {h:120,bg:'#0a140d',panel:'#101c15',panel2:'#182a1f',input:'#1e2e24'},
+        {h:270,bg:'#0e0a14',panel:'#15101c',panel2:'#22182a',input:'#281e2e'}
+      ];
+      const idx=parseInt(localStorage.getItem('themeIdx')||'0')%themes.length;
+      const t=themes[idx];
+      root.style.setProperty('--accent-h',t.h);
+      root.style.setProperty('--accent','hsl('+t.h+' 100% 55%)');
+      root.style.setProperty('--glow','hsla('+t.h+',100%,55%,0.25)');
+      root.style.setProperty('--bg',t.bg);
+      root.style.setProperty('--panel',t.panel);
+      root.style.setProperty('--panel-2',t.panel2);
+      root.style.setProperty('--input-bg',t.input);
+      root.style.setProperty('--input-border',t.input);
+
+const tabs=document.querySelectorAll('.tab');
+      const panels=document.querySelectorAll('.panel');
+      const dots=document.querySelectorAll('.dot');
+      function switchTab(id){
+        tabs.forEach(t=>{ const on=t.dataset.target===id; t.setAttribute('aria-selected',on); });
+        panels.forEach(p=>{ p.classList.toggle('active',p.id===id); });
+        dots.forEach((d,i)=>{
+          const idx=['explain','ex1','ex2','ex3'].indexOf(id);
+          d.classList.toggle('current',i===idx);
+          if(i<idx) d.classList.add('done');
+        });
+      }
+      tabs.forEach(t=>{ t.addEventListener('click',()=>switchTab(t.dataset.target)); });
+
+      function normalise(s){ return s.toLowerCase().replace(/[^a-z0-9\\s]/g,' ').replace(/\\s+/g,' ').trim(); }
+      function match(given, expected){
+        const g=normalise(given), e=normalise(expected);
+        if(g===e) return true;
+        return expected.split('/').some(a=>normalise(a)===g);
+      }
+
+      function setupExercise(form){
+        const checkBtn=form.querySelector('.check');
+        const resetBtn=form.querySelector('.reset');
+        const scoreBox=form.querySelector('.score');
+
+        checkBtn.addEventListener('click',()=>{
+          let total=0, correct=0;
+          form.querySelectorAll('.q').forEach(q=>{
+            const expected=q.dataset.answer;
+            const input=q.querySelector('select, input[type=text]');
+            const val=input.value.trim();
+            total++;
+            q.classList.remove('revealed');
+            input.classList.remove('correct','wrong');
+            q.querySelector('.num').classList.remove('good','bad');
+            if(!val) return;
+            const ok=match(val, expected);
+            input.classList.add(ok?'correct':'wrong');
+            q.querySelector('.num').classList.add(ok?'good':'bad');
+            if(ok) correct++;
+          });
+          form.querySelectorAll('.q').forEach(q=>q.classList.add('revealed'));
+          scoreBox.textContent=correct+' / '+total;
+          if(correct===total){
+            localStorage.setItem('b1-lesson-05-done','true');
+          }
+        });
+
+        resetBtn.addEventListener('click',()=>{
+          form.querySelectorAll('.q').forEach(q=>{
+            q.classList.remove('revealed');
+            q.querySelector('.num').classList.remove('good','bad');
+            const input=q.querySelector('select, input[type=text]');
+            input.value='';
+            input.classList.remove('correct','wrong');
+            if(input.tagName==='SELECT') input.selectedIndex=0;
+          });
+          scoreBox.textContent='';
+        });
+      }
+
+      document.querySelectorAll('form').forEach(setupExercise);
+    })();
+  </script>
+</body>
+</html>
