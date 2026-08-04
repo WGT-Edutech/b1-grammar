@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 04 · Past Simple vs Present Perfect</title>
+  <style>
+    :root{
+      --bg:#0b0d11;
+      --panel:#121620;
+      --panel-2:#1a1f2d;
+      --text:#e8ecf2;
+      --muted:#9aa3b2;
+      --accent:#00d4ff;
+      --accent-h:190;
+      --glow:rgba(0,212,255,.25);
+      --input-bg:#1e2433;
+      --input-border:#2a3347;
+      --good:#38f0b6;
+      --bad:#ff5a6a;
+      --warn:#ffd166;
+      --radius:14px;
+      --max:860px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,system-ui,-apple-system,sans-serif;
+      background:var(--bg);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse at 20% 50%, hsla(var(--accent-h),100%,50%,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, hsla(calc(var(--accent-h) + 60),100%,50%,0.02) 0%, transparent 50%);
+      background-attached:fixed;
+      color:var(--text);
+      line-height:1.55;
+      min-height:100vh;
+    }
+    .wrap{max-width:var(--max);margin:0 auto;padding:28px 16px 100px}
+    .top{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+    .top a.back{
+      text-decoration:none;color:var(--muted);
+      border:1px solid #202637;padding:6px 12px;border-radius:999px;
+      font-size:.8rem;
+    }
+    .top a.back:hover{border-color:var(--accent);color:var(--accent)}
+    h1{font-size:1.55rem;margin:0;letter-spacing:-.3px;flex:1 1 260px}
+    .level{font-size:.75rem;border:1px solid var(--accent);color:var(--accent);padding:4px 10px;border-radius:999px}
+    input[type=text], select{
+      background:var(--input-bg);color:var(--text);border:1px solid var(--input-border);
+      border-radius:8px;padding:7px 10px;font-size:.95rem;min-width:140px;
+      box-shadow:0 0 8px var(--glow);
+      transition:box-shadow .15s;
+    }
+    input[type=text]:focus, select:focus{
+      outline:none;box-shadow:0 0 14px var(--glow);
+    }    .theme-presets{display:flex;gap:4px}
+    .preset{
+      width:18px;height:18px;border-radius:50%;
+      background:hsl(var(--p) 100% 50%);
+      border:2px solid transparent;
+      cursor:pointer;
+      transition:transform .1s, border-color .1s;
+    }    .preset.active{border-color:#fff;box-shadow:0 0 6px hsla(var(--p),100%,50%,.5)}
+    .theme label{font-size:.75rem;color:var(--muted)}
+    .tabs{display:flex;gap:8px;margin:18px 0 20px;border-bottom:1px solid #202637;padding-bottom:0}
+    .tab{
+      padding:10px 18px;border-radius:10px 10px 0 0;
+      background:transparent;border:none;color:var(--muted);
+      cursor:pointer;font-weight:600;font-size:.9rem;
+      border-bottom:3px solid transparent;
+    }
+    .tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent);background:var(--panel-2)}
+
+    .panel{display:none}
+    .panel.active{display:block}
+
+    .hint-box{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;
+      background-image:
+        linear-gradient(135deg, hsla(var(--accent-h),100%,50%,0.02) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.02 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .hint-box h2{margin:0 0 8px;font-size:1.05rem;color:var(--accent)}
+    .hint-box p{margin:0;color:var(--muted)}
+
+    h2{margin:22px 0 10px;font-size:1.15rem}
+    h3{margin:18px 0 8px;font-size:1rem;color:#c2c9d5}
+    .rule{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:16px 18px;margin:12px 0;
+      background-image:
+        linear-gradient(180deg, hsla(var(--accent-h),100%,50%,0.015) 0%, transparent 40%);
+    }
+    .rule-title{font-weight:700;color:var(--accent);margin-bottom:4px}
+    ul{padding-left:18px;margin:8px 0}
+    li{margin:5px 0}
+    em{font-style:normal;color:var(--accent)}
+    strong{color:#fff}
+    .example{
+      background:var(--panel-2);padding:10px 14px;border-radius:10px;
+      margin:8px 0;font-size:.95rem;border-left:3px solid var(--accent);
+    }
+    .example b{color:var(--accent)}
+
+    .img-placeholder{
+      background:var(--panel-2);border:2px dashed #2a3347;
+      border-radius:var(--radius);padding:30px 20px;text-align:center;
+      color:var(--muted);margin:14px 0;
+    }
+    .img-placeholder small{display:block;margin-top:6px;font-size:.75rem}
+
+    .exercise{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;
+    }
+    .exercise h3{margin:0 0 12px;font-size:1.05rem;color:#fff}
+    .exercise .instr{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+    .q{margin:14px 0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+    .q .num{display:inline-block;width:24px;height:24px;border-radius:50%;
+      background:var(--panel-2);text-align:center;line-height:24px;font-size:.8rem;font-weight:700}
+    .q select, .q input[type=text]{
+      background:var(--panel-2);color:var(--text);border:1px solid #2a3347;
+      border-radius:8px;padding:7px 10px;font-size:.95rem;min-width:140px;
+    }
+    .q select:focus, .q input:focus{outline:none;border-color:var(--accent)}
+    .q select.correct, .q input.correct{border-color:var(--good);background:rgba(56,240,182,.08)}
+    .q select.wrong, .q input.wrong{border-color:var(--bad);background:rgba(255,90,106,.08)}
+    .q .answer{display:none;margin-left:auto;font-size:.85rem;color:var(--good)}
+    .q.revealed .answer{display:inline}
+    .q.revealed .num.good{background:var(--good);color:#000}
+    .q.revealed .num.bad{background:var(--bad);color:#000}
+
+    .btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    button{
+      background:var(--accent);color:#000;border:none;
+      padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;
+      box-shadow:0 0 14px var(--glow);font-size:.9rem;
+    }
+    button:hover{filter:brightness(1.1)}
+    button.secondary{background:var(--panel-2);color:var(--text);box-shadow:none;border:1px solid #2a3347}
+    .score{margin-left:auto;align-self:center;font-weight:700;color:var(--accent)}
+
+    .progress{display:flex;gap:6px;margin:8px 0 18px}
+    .dot{width:10px;height:10px;border-radius:50%;background:#202637}
+    .dot.done{background:var(--good)}
+    .dot.current{background:var(--accent);box-shadow:0 0 8px var(--glow)}
+
+    footer{
+      position:fixed;left:0;right:0;bottom:0;
+      padding:14px 18px;
+      background:rgba(11,13,17,.85);
+      backdrop-filter:blur(8px);
+      border-top:1px solid #202637;
+      font-size:.75rem;color:var(--muted);
+      display:flex;justify-content:center;gap:16px;
+    }
+    footer a{color:var(--muted);text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="index.html">← All lessons</a>
+      <h1>Past Simple vs Present Perfect</h1>
+      <span class="level">B1</span>
+      
+    </div>
+
+    <div class="progress" aria-label="Progress">
+      <span class="dot current"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-target="explain">Explanation</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex1">Exercise 1</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex2">Exercise 2</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex3">Exercise 3</button>
+    </div>
+
+    <!-- EXPLANATION -->
+    <section id="explain" class="panel active">
+      <div class="hint-box">
+        <h2>Finished time or unfinished time?</h2>
+        <p>Use Past Simple when the time is finished (yesterday, last year). Use Present Perfect when the time continues to now (today, this week, ever).</p>
+      </div>
+
+      <!-- RULE BLOCKS -->
+      <div class="rule">
+        <div class="rule-title">Past Simple + finished time</div>
+        <p>When you say exactly when something happened, use Past Simple.</p>
+        <div class="example">I <b>saw</b> him <b>yesterday</b>.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Present Perfect + unfinished time</div>
+        <p>When the time period includes now, use Present Perfect.</p>
+        <div class="example">I <b>have seen</b> him <b>today</b>.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Questions about experience</div>
+        <p>Use Present Perfect + "ever" to ask about life experience.</p>
+        <div class="example"><b>Have</b> you <b>ever been</b> to Berlin?</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Questions about a specific event</div>
+        <p>Use Past Simple when you ask about a specific moment.</p>
+        <div class="example"><b>Did</b> you <b>go</b> to Berlin <b>last summer</b>?</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Signal words</div>
+        <ul>
+          <li>Past Simple: yesterday, last week, in 2020, ago, when.</li>
+          <li>Present Perfect: today, this week/month/year, ever, never, already, yet, just, since, for.</li>
+        </ul>
+      </div>
+
+      <div class="img-placeholder">
+        <div>📸 Image placeholder</div>
+        <small>Drop custom explanation image here later.</small>
+      </div>
+    </section>
+
+    <!-- EXERCISE 1: MULTIPLE CHOICE -->
+    <section id="ex1" class="panel">
+      <div class="exercise">
+        <h3>Exercise 1 — Choose the correct form</h3>
+        <p class="instr">Choose the correct option to complete each sentence.</p>
+        <form id="form1">
+          <div class="q" data-answer="saw">
+            <span class="num">1</span>
+            <span>I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="saw">saw</option>
+              <option value="have seen">have seen</option>
+              <option value="did see">did see</option>
+              <option value="see">see</option>
+            </select></strong> Sarah yesterday.</span>
+            <span class="answer">saw</span>
+          </div>
+
+          <div class="q" data-answer="have seen">
+            <span class="num">2</span>
+            <span>I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="saw">saw</option>
+              <option value="have seen">have seen</option>
+              <option value="did see">did see</option>
+              <option value="have saw">have saw</option>
+            </select></strong> three films this month.</span>
+            <span class="answer">have seen</span>
+          </div>
+
+          <div class="q" data-answer="Have you eaten">
+            <span class="num">3</span>
+            <span><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="Have you eaten">Have you eaten</option>
+              <option value="Did you eat">Did you eat</option>
+              <option value="Do you eat">Do you eat</option>
+              <option value="Are you eating">Are you eating</option>
+            </select> breakfast this morning? (It is still morning.)</span>
+            <span class="answer">Have you eaten</span>
+          </div>
+
+          <div class="q" data-answer="Have you ever met">
+            <span class="num">4</span>
+            <span><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="Have you ever met">Have you ever met</option>
+              <option value="Did you ever meet">Did you ever meet</option>
+              <option value="Do you ever meet">Do you ever meet</option>
+              <option value="Are you ever meeting">Are you ever meeting</option>
+            </select> a famous person?</span>
+            <span class="answer">Have you ever met</span>
+          </div>
+
+          <div class="q" data-answer="went">
+            <span class="num">5</span>
+            <span>We <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="went">went</option>
+              <option value="have gone">have gone</option>
+              <option value="did go">did go</option>
+              <option value="go">go</option>
+            </select></strong> to Italy last summer.</span>
+            <span class="answer">went</span>
+          </div>
+
+          <div class="q" data-answer="has just called">
+            <span class="num">6</span>
+            <span>The doctor <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="has just called">has just called</option>
+              <option value="just called">just called</option>
+              <option value="called">called</option>
+              <option value="is calling">is calling</option>
+            </select></strong>. She will call back later.</span>
+            <span class="answer">has just called</span>
+          </div>
+
+          <div class="q" data-answer="did not see">
+            <span class="num">7</span>
+            <span>I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="didn't see">didn't see</option>
+              <option value="haven't seen">haven't seen</option>
+              <option value="don't see">don't see</option>
+              <option value="didn't saw">didn't saw</option>
+            </select></strong> him at the party last night.</span>
+            <span class="answer">did not see</span>
+          </div>
+
+          <div class="q" data-answer="have never been">
+            <span class="num">8</span>
+            <span>We <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="have never been">have never been</option>
+              <option value="were never">were never</option>
+              <option value="never went">never went</option>
+              <option value="did never go">did never go</option>
+            </select></strong> to Asia.</span>
+            <span class="answer">have never been</span>
+          </div>
+
+          <div class="q" data-answer="bought">
+            <span class="num">9</span>
+            <span>I <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="bought">bought</option>
+              <option value="have bought">have bought</option>
+              <option value="did buy">did buy</option>
+              <option value="buy">buy</option>
+            </select></strong> this laptop two years ago.</span>
+            <span class="answer">bought</span>
+          </div>
+
+          <div class="q" data-answer="has happened">
+            <span class="num">10</span>
+            <span>What <strong><select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="has happened">has happened</option>
+              <option value="happened">happened</option>
+              <option value="did happen">did happen</option>
+              <option value="is happening">is happening</option>
+            </select></strong> to the internet? It is very slow.</span>
+            <span class="answer">has happened</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- EXERCISE 2: CORRECT THE MISTAKE -->
+    <section id="ex2" class="panel">
+      <div class="exercise">
+        <h3>Exercise 2 — Correct the mistake</h3>
+        <p class="instr">Each sentence has ONE mistake. Rewrite it correctly.</p>
+        <form id="form2">
+          <div class="q" data-answer="I saw him last week">
+            <span class="num">1</span>
+            <span>I <strong>have seen him last week</strong>. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I saw him last week</span>
+          </div>
+
+          <div class="q" data-answer="Have you ever eaten Thai food?">
+            <span class="num">2</span>
+            <span><strong>Did you ever eat Thai food?</strong> → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">Have you ever eaten Thai food?</span>
+          </div>
+
+          <div class="q" data-answer="She went to Paris in 2019">
+            <span class="num">3</span>
+            <span>She <strong>has been to Paris in 2019</strong>. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">She went to Paris in 2019</span>
+          </div>
+
+          <div class="q" data-answer="We haven't finished yet">
+            <span class="num">4</span>
+            <span>We <strong>didn't finish yet</strong>. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">We haven't finished yet</span>
+          </div>
+
+          <div class="q" data-answer="I bought these shoes yesterday">
+            <span class="num">5</span>
+            <span>I <strong>have bought these shoes yesterday</strong>. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I bought these shoes yesterday</span>
+          </div>
+
+          <div class="q" data-answer="Did you watch the news this evening?">
+            <span class="num">6</span>
+            <span><strong>Have you watched the news this evening?</strong> (It is now late at night.) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">Did you watch the news this evening?</span>
+          </div>
+
+          <div class="q" data-answer="He has worked here since March">
+            <span class="num">7</span>
+            <span>He <strong>worked here since March</strong>. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">He has worked here since March</span>
+          </div>
+
+          <div class="q" data-answer="They visited us last Sunday">
+            <span class="num">8</span>
+            <span>They <strong>have visited us last Sunday</strong>. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">They visited us last Sunday</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- EXERCISE 3: FILL IN THE GAPS -->
+    <section id="ex3" class="panel">
+      <div class="exercise">
+        <h3>Exercise 3 — Fill in the gaps</h3>
+        <p class="instr">Put the verbs in brackets into the correct form.</p>
+        <form id="form3">
+          <div class="q" data-answer="have never seen">
+            <span class="num">1</span>
+            <span>I <strong>(never / see)</strong> a whale in real life.</span>
+            <span class="answer">have never seen</span>
+          </div>
+
+          <div class="q" data-answer="went">
+            <span class="num">2</span>
+            <span>Last year we <strong>(go)</strong> to Croatia for our holiday.</span>
+            <span class="answer">went</span>
+          </div>
+
+          <div class="q" data-answer="have already had">
+            <span class="num">3</span>
+            <span>We <strong>(already / have)</strong> lunch, thanks.</span>
+            <span class="answer">have already had</span>
+          </div>
+
+          <div class="q" data-answer="did you do">
+            <span class="num">4</span>
+            <span>What <strong>(you / do)</strong> last weekend?</span>
+            <span class="answer">did you do</span>
+          </div>
+
+          <div class="q" data-answer="has been">
+            <span class="num">5</span>
+            <span>Maria <strong>(be)</strong> in hospital three times this year.</span>
+            <span class="answer">has been</span>
+          </div>
+
+          <div class="q" data-answer="bought">
+            <span class="num">6</span>
+            <span>I <strong>(buy)</strong> this jacket at a flea market last Saturday.</span>
+            <span class="answer">bought</span>
+          </div>
+
+          <div class="q" data-answer="have known">
+            <span class="num">7</span>
+            <span>How long <strong>(you / know)</strong> your best friend?</span>
+            <span class="answer">have known</span>
+          </div>
+
+          <div class="q" data-answer="did not rain">
+            <span class="num">8</span>
+            <span>It <strong>(not rain)</strong> at all during our trip.</span>
+            <span class="answer">did not rain</span>
+          </div>
+
+          <div class="q" data-answer="have just started">
+            <span class="num">9</span>
+            <span>The students <strong>(just / start)</strong> the exam.</span>
+            <span class="answer">have just started</span>
+          </div>
+
+          <div class="q" data-answer="lost">
+            <span class="num">10</span>
+            <span>I <strong>(lose)</strong> my wallet on the train this morning.</span>
+            <span class="answer">lost</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span>Lesson 04 · B1 Grammar</span>
+    <a href="index.html">← All lessons</a>
+  </footer>
+
+  <script>
+    (function(){
+      const root=document.documentElement;
+      // Apply theme from index
+      const themes=[
+        {h:190,bg:'#0b0d11',panel:'#121620',panel2:'#1a1f2d',input:'#1e2433'},
+        {h:35,bg:'#14100a',panel:'#1c1810',panel2:'#2a2418',input:'#2e2a1e'},
+        {h:340,bg:'#140a0e',panel:'#1c1018',panel2:'#2a1822',input:'#2e1e28'},
+        {h:120,bg:'#0a140d',panel:'#101c15',panel2:'#182a1f',input:'#1e2e24'},
+        {h:270,bg:'#0e0a14',panel:'#15101c',panel2:'#22182a',input:'#281e2e'}
+      ];
+      const idx=parseInt(localStorage.getItem('themeIdx')||'0')%themes.length;
+      const t=themes[idx];
+      root.style.setProperty('--accent-h',t.h);
+      root.style.setProperty('--accent','hsl('+t.h+' 100% 55%)');
+      root.style.setProperty('--glow','hsla('+t.h+',100%,55%,0.25)');
+      root.style.setProperty('--bg',t.bg);
+      root.style.setProperty('--panel',t.panel);
+      root.style.setProperty('--panel-2',t.panel2);
+      root.style.setProperty('--input-bg',t.input);
+      root.style.setProperty('--input-border',t.input);
+
+const tabs=document.querySelectorAll('.tab');
+      const panels=document.querySelectorAll('.panel');
+      const dots=document.querySelectorAll('.dot');
+      function switchTab(id){
+        tabs.forEach(t=>{ const on=t.dataset.target===id; t.setAttribute('aria-selected',on); });
+        panels.forEach(p=>{ p.classList.toggle('active',p.id===id); });
+        dots.forEach((d,i)=>{
+          const idx=['explain','ex1','ex2','ex3'].indexOf(id);
+          d.classList.toggle('current',i===idx);
+          if(i<idx) d.classList.add('done');
+        });
+      }
+      tabs.forEach(t=>{ t.addEventListener('click',()=>switchTab(t.dataset.target)); });
+
+      function normalise(s){ return s.toLowerCase().replace(/[^a-z0-9\\s]/g,' ').replace(/\\s+/g,' ').trim(); }
+      function match(given, expected){
+        const g=normalise(given), e=normalise(expected);
+        if(g===e) return true;
+        return expected.split('/').some(a=>normalise(a)===g);
+      }
+
+      function setupExercise(form){
+        const checkBtn=form.querySelector('.check');
+        const resetBtn=form.querySelector('.reset');
+        const scoreBox=form.querySelector('.score');
+
+        checkBtn.addEventListener('click',()=>{
+          let total=0, correct=0;
+          form.querySelectorAll('.q').forEach(q=>{
+            const expected=q.dataset.answer;
+            const input=q.querySelector('select, input[type=text]');
+            const val=input.value.trim();
+            total++;
+            q.classList.remove('revealed');
+            input.classList.remove('correct','wrong');
+            q.querySelector('.num').classList.remove('good','bad');
+            if(!val) return;
+            const ok=match(val, expected);
+            input.classList.add(ok?'correct':'wrong');
+            q.querySelector('.num').classList.add(ok?'good':'bad');
+            if(ok) correct++;
+          });
+          form.querySelectorAll('.q').forEach(q=>q.classList.add('revealed'));
+          scoreBox.textContent=correct+' / '+total;
+          if(correct===total){
+            localStorage.setItem('b1-lesson-04-done','true');
+          }
+        });
+
+        resetBtn.addEventListener('click',()=>{
+          form.querySelectorAll('.q').forEach(q=>{
+            q.classList.remove('revealed');
+            q.querySelector('.num').classList.remove('good','bad');
+            const input=q.querySelector('select, input[type=text]');
+            input.value='';
+            input.classList.remove('correct','wrong');
+            if(input.tagName==='SELECT') input.selectedIndex=0;
+          });
+          scoreBox.textContent='';
+        });
+      }
+
+      document.querySelectorAll('form').forEach(setupExercise);
+    })();
+  </script>
+</body>
+</html>
