@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 · Present Simple vs Present Continuous</title>
+  <style>
+    :root{
+      --bg:#0b0d11;
+      --panel:#121620;
+      --panel-2:#1a1f2d;
+      --text:#e8ecf2;
+      --muted:#9aa3b2;
+      --accent:#00d4ff;
+      --accent-h:190;
+      --glow:rgba(0,212,255,.25);
+      --input-bg:#1e2433;
+      --input-border:#2a3347;
+      --good:#38f0b6;
+      --bad:#ff5a6a;
+      --warn:#ffd166;
+      --radius:14px;
+      --max:860px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,system-ui,-apple-system,sans-serif;
+      background:var(--bg);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse at 20% 50%, hsla(var(--accent-h),100%,50%,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, hsla(calc(var(--accent-h) + 60),100%,50%,0.02) 0%, transparent 50%);
+      background-attached:fixed;
+      color:var(--text);
+      line-height:1.55;
+      min-height:100vh;
+    }
+    .wrap{max-width:var(--max);margin:0 auto;padding:28px 16px 100px}
+    .top{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+    .top a.back{
+      text-decoration:none;color:var(--muted);
+      border:1px solid #202637;padding:6px 12px;border-radius:999px;
+      font-size:.8rem;
+    }
+    .top a.back:hover{border-color:var(--accent);color:var(--accent)}
+    h1{font-size:1.55rem;margin:0;letter-spacing:-.3px;flex:1 1 260px}
+    .level{font-size:.75rem;border:1px solid var(--accent);color:var(--accent);padding:4px 10px;border-radius:999px}
+    input[type=text], select{
+      background:var(--input-bg);color:var(--text);border:1px solid var(--input-border);
+      border-radius:8px;padding:7px 10px;font-size:.95rem;min-width:140px;
+      box-shadow:0 0 8px var(--glow);
+      transition:box-shadow .15s;
+    }
+    input[type=text]:focus, select:focus{
+      outline:none;box-shadow:0 0 14px var(--glow);
+    }    .theme-presets{display:flex;gap:4px}
+    .preset{
+      width:18px;height:18px;border-radius:50%;
+      background:hsl(var(--p) 100% 50%);
+      border:2px solid transparent;
+      cursor:pointer;
+      transition:transform .1s, border-color .1s;
+    }    .preset.active{border-color:#fff;box-shadow:0 0 6px hsla(var(--p),100%,50%,.5)}
+    .theme label{font-size:.75rem;color:var(--muted)}
+    .tabs{display:flex;gap:8px;margin:18px 0 20px;border-bottom:1px solid #202637;padding-bottom:0}
+    .tab{
+      padding:10px 18px;border-radius:10px 10px 0 0;
+      background:transparent;border:none;color:var(--muted);
+      cursor:pointer;font-weight:600;font-size:.9rem;
+      border-bottom:3px solid transparent;
+    }
+    .tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent);background:var(--panel-2)}
+
+    .panel{display:none}
+    .panel.active{display:block}
+
+    .hint-box{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;
+      background-image:
+        linear-gradient(135deg, hsla(var(--accent-h),100%,50%,0.02) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.02 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .hint-box h2{margin:0 0 8px;font-size:1.05rem;color:var(--accent)}
+    .hint-box p{margin:0;color:var(--muted)}
+
+    h2{margin:22px 0 10px;font-size:1.15rem}
+    h3{margin:18px 0 8px;font-size:1rem;color:#c2c9d5}
+    .rule{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:16px 18px;margin:12px 0;
+      background-image:
+        linear-gradient(180deg, hsla(var(--accent-h),100%,50%,0.015) 0%, transparent 40%);
+    }
+    .rule-title{font-weight:700;color:var(--accent);margin-bottom:4px}
+    ul{padding-left:18px;margin:8px 0}
+    li{margin:5px 0}
+    em{font-style:normal;color:var(--accent)}
+    strong{color:#fff}
+    .example{
+      background:var(--panel-2);padding:10px 14px;border-radius:10px;
+      margin:8px 0;font-size:.95rem;border-left:3px solid var(--accent);
+    }
+    .example b{color:var(--accent)}
+
+    .img-placeholder{
+      background:var(--panel-2);border:2px dashed #2a3347;
+      border-radius:var(--radius);padding:30px 20px;text-align:center;
+      color:var(--muted);margin:14px 0;
+    }
+    .img-placeholder small{display:block;margin-top:6px;font-size:.75rem}
+
+    .exercise{
+      background:var(--panel);border:1px solid #202637;
+      border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;
+    }
+    .exercise h3{margin:0 0 12px;font-size:1.05rem;color:#fff}
+    .exercise .instr{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+    .q{margin:14px 0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+    .q .num{display:inline-block;width:24px;height:24px;border-radius:50%;
+      background:var(--panel-2);text-align:center;line-height:24px;font-size:.8rem;font-weight:700}
+    .q select, .q input[type=text]{
+      background:var(--panel-2);color:var(--text);border:1px solid #2a3347;
+      border-radius:8px;padding:7px 10px;font-size:.95rem;min-width:140px;
+    }
+    .q select:focus, .q input:focus{outline:none;border-color:var(--accent)}
+    .q select.correct, .q input.correct{border-color:var(--good);background:rgba(56,240,182,.08)}
+    .q select.wrong, .q input.wrong{border-color:var(--bad);background:rgba(255,90,106,.08)}
+    .q .answer{display:none;margin-left:auto;font-size:.85rem;color:var(--good)}
+    .q.revealed .answer{display:inline}
+    .q.revealed .num.good{background:var(--good);color:#000}
+    .q.revealed .num.bad{background:var(--bad);color:#000}
+
+    .btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    button{
+      background:var(--accent);color:#000;border:none;
+      padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;
+      box-shadow:0 0 14px var(--glow);font-size:.9rem;
+    }
+    button:hover{filter:brightness(1.1)}
+    button.secondary{background:var(--panel-2);color:var(--text);box-shadow:none;border:1px solid #2a3347}
+    .score{margin-left:auto;align-self:center;font-weight:700;color:var(--accent)}
+
+    .progress{display:flex;gap:6px;margin:8px 0 18px}
+    .dot{width:10px;height:10px;border-radius:50%;background:#202637}
+    .dot.done{background:var(--good)}
+    .dot.current{background:var(--accent);box-shadow:0 0 8px var(--glow)}
+
+    footer{
+      position:fixed;left:0;right:0;bottom:0;
+      padding:14px 18px;
+      background:rgba(11,13,17,.85);
+      backdrop-filter:blur(8px);
+      border-top:1px solid #202637;
+      font-size:.75rem;color:var(--muted);
+      display:flex;justify-content:center;gap:16px;
+    }
+    footer a{color:var(--muted);text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="index.html">← All lessons</a>
+      <h1>Present Simple vs Present Continuous</h1>
+      <span class="level">B1</span>
+      
+    </div>
+
+    <div class="progress" aria-label="Progress">
+      <span class="dot current"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-target="explain">Explanation</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex1">Exercise 1</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex2">Exercise 2</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="ex3">Exercise 3</button>
+    </div>
+
+    <!-- EXPLANATION -->
+    <section id="explain" class="panel active">
+      <div class="hint-box">
+        <h2>Two ways to talk about now</h2>
+        <p>We use <strong>Present Simple</strong> for habits, facts and routines. We use <strong>Present Continuous</strong> for things happening right now or around now.</p>
+      </div>
+
+      <div class="rule">
+        <div class="rule-title">Present Simple — habits and facts</div>
+        <p>Use it for things that happen regularly, permanent situations, or general truths.</p>
+        <div class="example"><b>I drink</b> coffee every morning. (habit)</div>
+        <div class="example"><b>She works</b> in Vienna. (permanent situation)</div>
+        <div class="example">Water <b>boils</b> at 100°C. (fact)</div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-title">Present Continuous — right now or temporary</div>
+        <p>Use it for actions in progress at this moment, or temporary situations.</p>
+        <div class="example"><b>I am drinking</b> coffee right now. (in progress)</div>
+        <div class="example"><b>She is staying</b> with her parents this week. (temporary)</div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-title">Key signal words</div>
+        <ul>
+          <li><strong>Present Simple:</strong> always, usually, often, sometimes, never, every day, on Mondays, twice a year</li>
+          <li><strong>Present Continuous:</strong> now, right now, at the moment, today, currently, this week</li>
+        </ul>
+      </div>
+
+      <div class="rule">
+        <div class="rule-title">Be careful with state verbs</div>
+        <p>Some verbs describe a state, not an action. They are not normally used in continuous forms.</p>
+        <div class="example"><b>I know</b> the answer. (NOT <b>I am knowing</b>)</div>
+        <div class="example"><b>She wants</b> a coffee. (NOT <b>She is wanting</b>)</div>
+      </div>
+
+      <div class="img-placeholder">
+        <div>📸 Image placeholder</div>
+        <small>William can drop the custom explanation image here later.</small>
+      </div>
+    </section>
+
+    <!-- EXERCISE 1 -->
+    <section id="ex1" class="panel">
+      <div class="exercise">
+        <h3>Exercise 1 — Choose the correct tense</h3>
+        <p class="instr">Choose the present simple or the present continuous to complete each sentence.</p>
+        <form id="form1">
+          <div class="q" data-answer="speak">
+            <span class="num">1</span>
+            <span>In Austria, most people </select> at least two languages.</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="speak">speak</option>
+              <option value="are speaking">are speaking</option>
+            </select>
+            <span class="answer">speak</span>
+          </div>
+          <div class="q" data-answer="are having">
+            <span class="num">2</span>
+            <span>You can't see Tim now; he </select> a bath.</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="has">has</option>
+              <option value="is having">is having</option>
+              <option value="are having">are having</option>
+            </select>
+            <span class="answer">is having</span>
+          </div>
+          <div class="q" data-answer="does the first train leave">
+            <span class="num">3</span>
+            <span>What time </select>?</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="does the first train leave">does the first train leave</option>
+              <option value="is the first train leaving">is the first train leaving</option>
+            </select>
+            <span class="answer">does the first train leave</span>
+          </div>
+          <div class="q" data-answer="listen">
+            <span class="num">4</span>
+            <span>I </select> to the news in the mornings.</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="listen">listen</option>
+              <option value="am listening">am listening</option>
+            </select>
+            <span class="answer">listen</span>
+          </div>
+          <div class="q" data-answer="are you doing">
+            <span class="num">5</span>
+            <span>What </select> tonight? Would you like to come?</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="do you do">do you do</option>
+              <option value="are you doing">are you doing</option>
+            </select>
+            <span class="answer">are you doing</span>
+          </div>
+          <div class="q" data-answer="is disappearing">
+            <span class="num">6</span>
+            <span>Small local shops </select> because of online shopping.</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="disappear">disappear</option>
+              <option value="are disappearing">are disappearing</option>
+            </select>
+            <span class="answer">are disappearing</span>
+          </div>
+          <div class="q" data-answer="is wearing">
+            <span class="num">7</span>
+            <span>She usually wears jeans, but today she </select> a dress.</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="wears">wears</option>
+              <option value="is wearing">is wearing</option>
+            </select>
+            <span class="answer">is wearing</span>
+          </div>
+          <div class="q" data-answer="thinks">
+            <span class="num">8</span>
+            <span>Nobody </select> this is a good idea.</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="thinks">thinks</option>
+              <option value="is thinking">is thinking</option>
+            </select>
+            <span class="answer">thinks</span>
+          </div>
+          <div class="q" data-answer="are working">
+            <span class="num">9</span>
+            <span>Please be quiet. The students </select> on a test.</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="work">work</option>
+              <option value="are working">are working</option>
+            </select>
+            <span class="answer">are working</span>
+          </div>
+          <div class="q" data-answer="do you usually get">
+            <span class="num">10</span>
+            <span>What time </select> up on Sundays?</span>
+            <select class="blank">
+              <option value="" selected disabled>— choose —</option>
+              <option value="are you usually getting">are you usually getting</option>
+              <option value="do you usually get">do you usually get</option>
+            </select>
+            <span class="answer">do you usually get</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- EXERCISE 2 -->
+    <section id="ex2" class="panel">
+      <div class="exercise">
+        <h3>Exercise 2 — Correct the mistake</h3>
+        <p class="instr">Each sentence has ONE mistake. Rewrite the verb part correctly in the box.</p>
+        <form id="form2">
+          <div class="q" data-answer="I am studying">
+            <span class="num">1</span>
+            <span>I <strong>am study</strong> English at the moment. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">I am studying</span>
+          </div>
+          <div class="q" data-answer="He usually watches">
+            <span class="num">2</span>
+            <span>He <strong>usually watching</strong> football on Saturdays. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">He usually watches</span>
+          </div>
+          <div class="q" data-answer="They are having">
+            <span class="num">3</span>
+            <span>Look! They <strong>have</strong> dinner right now. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">They are having</span>
+          </div>
+          <div class="q" data-answer="She doesn't like">
+            <span class="num">4</span>
+            <span>She <strong>isn't liking</strong> spicy food. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">She doesn't like</span>
+          </div>
+          <div class="q" data-answer="Do you believe">
+            <span class="num">5</span>
+            <span><strong>Are you believing</strong> in ghosts? → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">Do you believe</span>
+          </div>
+          <div class="q" data-answer="The sun rises">
+            <span class="num">6</span>
+            <span>The sun <strong>is rising</strong> in the east. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">The sun rises</span>
+          </div>
+          <div class="q" data-answer="We are staying">
+            <span class="num">7</span>
+            <span>We <strong>stay</strong> in a hotel this week. → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">We are staying</span>
+          </div>
+          <div class="q" data-answer="She works">
+            <span class="num">8</span>
+            <span>She <strong>is working</strong> as a nurse. (permanent job) → <input type="text" placeholder="correct form" /></span>
+            <span class="answer">She works</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- EXERCISE 3 -->
+    <section id="ex3" class="panel">
+      <div class="exercise">
+        <h3>Exercise 3 — Fill in the gaps</h3>
+        <p class="instr">Read the text about Maria's life. Put the verbs in brackets into the present simple or present continuous.</p>
+        <form id="form3">
+          <div class="q" data-answer="lives">
+            <span class="num">1</span>
+            <span>Maria <strong>(live)</strong> <input type="text" placeholder="verb" /> in Graz.</span>
+            <span class="answer">lives</span>
+          </div>
+          <div class="q" data-answer="is studying">
+            <span class="num">2</span>
+            <span>At the moment, she <strong>(study)</strong> <input type="text" placeholder="verb" /> for her B1 exam.</span>
+            <span class="answer">is studying</span>
+          </div>
+          <div class="q" data-answer="works">
+            <span class="num">3</span>
+            <span>She <strong>(work)</strong> <input type="text" placeholder="verb" /> part-time in a bookshop.</span>
+            <span class="answer">works</span>
+          </div>
+          <div class="q" data-answer="usually starts">
+            <span class="num">4</span>
+            <span>Her shift <strong>(usually / start)</strong> <input type="text" placeholder="verb" /> at 10 a.m.</span>
+            <span class="answer">usually starts</span>
+          </div>
+          <div class="q" data-answer="is reading">
+            <span class="num">5</span>
+            <span>Right now she <strong>(read)</strong> <input type="text" placeholder="verb" /> a detective novel.</span>
+            <span class="answer">is reading</span>
+          </div>
+          <div class="q" data-answer="does not understand">
+            <span class="num">6</span>
+            <span>She <strong>(not understand)</strong> <input type="text" placeholder="verb" /> why the book is so popular.</span>
+            <span class="answer">doesn't understand / does not understand</span>
+          </div>
+          <div class="q" data-answer="goes">
+            <span class="num">7</span>
+            <span>She <strong>(go)</strong> <input type="text" placeholder="verb" /> to the gym every Tuesday.</span>
+            <span class="answer">goes</span>
+          </div>
+          <div class="q" data-answer="is meeting">
+            <span class="num">8</span>
+            <span>This evening she <strong>(meet)</strong> <input type="text" placeholder="verb" /> her friends for coffee.</span>
+            <span class="answer">is meeting</span>
+          </div>
+          <div class="q" data-answer="is raining">
+            <span class="num">9</span>
+            <span>It <strong>(rain)</strong> <input type="text" placeholder="verb" /> today, so they will probably stay inside.</span>
+            <span class="answer">is raining</span>
+          </div>
+          <div class="q" data-answer="loves">
+            <span class="num">10</span>
+            <span>Maria <strong>(love)</strong> <input type="text" placeholder="verb" /> Austrian coffee houses.</span>
+            <span class="answer">loves</span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="check">Check Answers</button>
+            <button type="button" class="secondary reset">Reset</button>
+            <span class="score"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span>Lesson 1 · B1 Grammar</span>
+    <a href="index.html">← All lessons</a>
+  </footer>
+
+  <script>
+    (function(){
+      const root=document.documentElement;
+      // Apply theme from index
+      const themes=[
+        {h:190,bg:'#0b0d11',panel:'#121620',panel2:'#1a1f2d',input:'#1e2433'},
+        {h:35,bg:'#14100a',panel:'#1c1810',panel2:'#2a2418',input:'#2e2a1e'},
+        {h:340,bg:'#140a0e',panel:'#1c1018',panel2:'#2a1822',input:'#2e1e28'},
+        {h:120,bg:'#0a140d',panel:'#101c15',panel2:'#182a1f',input:'#1e2e24'},
+        {h:270,bg:'#0e0a14',panel:'#15101c',panel2:'#22182a',input:'#281e2e'}
+      ];
+      const idx=parseInt(localStorage.getItem('themeIdx')||'0')%themes.length;
+      const t=themes[idx];
+      root.style.setProperty('--accent-h',t.h);
+      root.style.setProperty('--accent','hsl('+t.h+' 100% 55%)');
+      root.style.setProperty('--glow','hsla('+t.h+',100%,55%,0.25)');
+      root.style.setProperty('--bg',t.bg);
+      root.style.setProperty('--panel',t.panel);
+      root.style.setProperty('--panel-2',t.panel2);
+      root.style.setProperty('--input-bg',t.input);
+      root.style.setProperty('--input-border',t.input);
+
+      // Tabs
+      const tabs=document.querySelectorAll('.tab');
+      const panels=document.querySelectorAll('.panel');
+      const dots=document.querySelectorAll('.dot');
+      function switchTab(id){
+        tabs.forEach(t=>{
+          const on=t.dataset.target===id;
+          t.setAttribute('aria-selected',on);
+        });
+        panels.forEach(p=>{
+          p.classList.toggle('active',p.id===id);
+        });
+        dots.forEach((d,i)=>{
+          const idx=['explain','ex1','ex2','ex3'].indexOf(id);
+          d.classList.toggle('current',i===idx);
+          if(i<idx) d.classList.add('done');
+        });
+      }
+      tabs.forEach(t=>{
+        t.addEventListener('click',()=>switchTab(t.dataset.target));
+      });
+
+      function normalise(s){
+        return s.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+      }
+      function match(given, expected){
+        const g=normalise(given);
+        const e=normalise(expected);
+        if(g===e) return true;
+        // allow alternatives separated by /
+        return expected.split('/').some(a=>normalise(a)===g);
+      }
+
+      function setupExercise(form){
+        const checkBtn=form.querySelector('.check');
+        const resetBtn=form.querySelector('.reset');
+        const scoreBox=form.querySelector('.score');
+
+        checkBtn.addEventListener('click',()=>{
+          let total=0, correct=0;
+          form.querySelectorAll('.q').forEach(q=>{
+            const expected=q.dataset.answer;
+            const input=q.querySelector('select, input[type=text]');
+            const val=input.value.trim();
+            total++;
+            q.classList.remove('revealed');
+            input.classList.remove('correct','wrong');
+            q.querySelector('.num').classList.remove('good','bad');
+            if(!val) return;
+            const ok=match(val, expected);
+            input.classList.add(ok?'correct':'wrong');
+            q.querySelector('.num').classList.add(ok?'good':'bad');
+            if(ok) correct++;
+          });
+          form.querySelectorAll('.q').forEach(q=>q.classList.add('revealed'));
+          scoreBox.textContent=correct+' / '+total;
+          if(correct===total){
+            localStorage.setItem('b1-lesson-01-done','true');
+          }
+        });
+
+        resetBtn.addEventListener('click',()=>{
+          form.querySelectorAll('.q').forEach(q=>{
+            q.classList.remove('revealed');
+            q.querySelector('.num').classList.remove('good','bad');
+            const input=q.querySelector('select, input[type=text]');
+            input.value='';
+            input.classList.remove('correct','wrong');
+            if(input.tagName==='SELECT'){
+              input.selectedIndex=0;
+            }
+          });
+          scoreBox.textContent='';
+        });
+      }
+
+      document.querySelectorAll('form').forEach(setupExercise);
+    })();
+  </script>
+</body>
+</html>
